@@ -1,24 +1,36 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "Korone Test Site — Yubi Yubi!" },
+      { name: "description", content: "A tiny test site full of Korone stuff." },
+      { property: "og:title", content: "Korone Test Site" },
+      { property: "og:description", content: "A tiny test site full of Korone stuff." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
+  const [count, setCount] = useState(0);
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <main className="min-h-screen bg-background text-foreground flex flex-col items-center justify-center gap-8 px-6 text-center">
+      <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground">Test site</p>
+      <h1 className="font-display text-6xl md:text-8xl text-primary">Yubi Yubi!</h1>
+      <p className="max-w-md text-lg text-muted-foreground">
+        A little corner for Korone stuff. Press the button to collect fingers.
+      </p>
+      <button
+        onClick={() => setCount((c) => c + 1)}
+        className="rounded-full bg-primary px-8 py-4 text-xl font-bold text-primary-foreground shadow-lg transition-transform hover:scale-105 active:scale-95"
+      >
+        🦴 Collect a yubi
+      </button>
+      <p className="font-display text-3xl">{count} yubi collected</p>
+    </main>
   );
 }
