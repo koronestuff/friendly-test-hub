@@ -14,6 +14,32 @@ export type Database = {
   }
   public: {
     Tables: {
+      clothing_templates: {
+        Row: {
+          created_at: string
+          item_id: string
+          template_data_url: string
+        }
+        Insert: {
+          created_at?: string
+          item_id: string
+          template_data_url: string
+        }
+        Update: {
+          created_at?: string
+          item_id?: string
+          template_data_url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "clothing_templates_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: true
+            referencedRelation: "items"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       follows: {
         Row: {
           created_at: string
@@ -82,6 +108,38 @@ export type Database = {
           user_b?: string
         }
         Relationships: []
+      }
+      item_accessories: {
+        Row: {
+          item_id: string
+          mesh_b64: string | null
+          meta: Json
+          texture_data_url: string | null
+          updated_at: string
+        }
+        Insert: {
+          item_id: string
+          mesh_b64?: string | null
+          meta?: Json
+          texture_data_url?: string | null
+          updated_at?: string
+        }
+        Update: {
+          item_id?: string
+          mesh_b64?: string | null
+          meta?: Json
+          texture_data_url?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "item_accessories_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: true
+            referencedRelation: "items"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       items: {
         Row: {
@@ -410,6 +468,17 @@ export type Database = {
         Args: { _item: Database["public"]["Tables"]["items"]["Row"] }
         Returns: boolean
       }
+      publish_clothing: {
+        Args: {
+          _description: string
+          _kind: string
+          _name: string
+          _price: number
+          _template: string
+          _thumb: string
+        }
+        Returns: string
+      }
       redeem_promocode: { Args: { _code: string }; Returns: string }
       remove_friend: { Args: { _other: string }; Returns: string }
       respond_friend_request: {
@@ -418,6 +487,10 @@ export type Database = {
       }
       respond_trade: {
         Args: { _accept: boolean; _trade_id: string }
+        Returns: string
+      }
+      save_avatar: {
+        Args: { _colors: Json; _equipped: string[] }
         Returns: string
       }
       send_friend_request: { Args: { _target: string }; Returns: string }
@@ -446,6 +519,13 @@ export type Database = {
         | "back"
         | "waist"
         | "gear"
+        | "shirt"
+        | "pants"
+        | "tshirt"
+        | "head"
+        | "torso"
+        | "arm"
+        | "leg"
       trade_status: "pending" | "accepted" | "declined" | "cancelled"
     }
     CompositeTypes: {
@@ -587,6 +667,13 @@ export const Constants = {
         "back",
         "waist",
         "gear",
+        "shirt",
+        "pants",
+        "tshirt",
+        "head",
+        "torso",
+        "arm",
+        "leg",
       ],
       trade_status: ["pending", "accepted", "declined", "cancelled"],
     },
