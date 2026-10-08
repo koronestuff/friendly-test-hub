@@ -39,7 +39,7 @@ const AuthContext = createContext<AuthValue>({
 });
 
 export function usernameToEmail(username: string) {
-  return `${username.trim().toLowerCase()}@rawblox.local`;
+  return `${username.trim().toLowerCase()}@players.rawblox.app`;
 }
 
 // Keep the same session object when nothing meaningful changed, so the whole app
