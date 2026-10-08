@@ -38,6 +38,7 @@ export const publishItem = createServerFn({ method: "POST" })
       timerSeconds?: number | null;
       stock?: number | null;
       value?: number | null;
+      hidden?: boolean;
     }) => data,
   )
   .handler(async ({ data }) => {
@@ -48,9 +49,9 @@ export const publishItem = createServerFn({ method: "POST" })
       (data.timerHours ?? 0) * 3600 +
       (data.timerMinutes ?? 0) * 60 +
       (data.timerSeconds ?? 0);
-    if (data.cls === "offsale" && !(totalSeconds > 0) && !((data.stock ?? 0) > 0)) {
-      throw new Error("Offsale items need a stock amount or a timer.");
-    }
+    // Offsale with no stock and no timer = offsale immediately
+    const instantOffsale =
+      data.cls === "offsale" && !(totalSeconds > 0) && !((data.stock ?? 0) > 0);
     const saleEnds =
       data.cls !== "normal" && totalSeconds > 0
         ? new Date(Date.now() + totalSeconds * 1000).toISOString()
@@ -63,10 +64,12 @@ export const publishItem = createServerFn({ method: "POST" })
       image_url: data.imageUrl || null,
       price: Math.max(0, Math.round(data.price)),
       sale_ends_at: saleEnds,
-      stock:
-        data.stock === null || data.stock === undefined
+      stock: instantOffsale
+        ? 0
+        : data.stock === null || data.stock === undefined
           ? null
           : Math.max(0, Math.round(data.stock)),
+      hidden: !!data.hidden,
       rap: Math.max(0, Math.round(data.price)),
       value: Math.max(
         0,
@@ -231,11 +234,25 @@ export const adminListItems = createServerFn({ method: "GET" }).handler(async ()
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   const { data } = await supabaseAdmin
     .from("items")
-    .select("id, name, kind, class, price, copies_sold, rap, value, stock, sale_ends_at, description")
+    .select("id, name, kind, class, price, copies_sold, rap, value, stock, sale_ends_at, description, hidden")
     .order("created_at", { ascending: false })
     .limit(200);
   return data ?? [];
 });
+
+export const adminSetItemHidden = createServerFn({ method: "POST" })
+  .inputValidator((data: { itemId: string; hidden: boolean }) => data)
+  .handler(async ({ data }) => {
+    const { requireAdmin } = await import("./admin.server");
+    await requireAdmin();
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { error } = await supabaseAdmin
+      .from("items")
+      .update({ hidden: data.hidden })
+      .eq("id", data.itemId);
+    if (error) throw new Error(error.message);
+    return { ok: true as const };
+  });
 
 export const adminSetItemRap = createServerFn({ method: "POST" })
   .inputValidator((data: { itemId: string; rap: number }) => data)
