@@ -124,7 +124,7 @@ function AdminPage() {
 
   const [name, setName] = useState("");
   const [kind, setKind] = useState(KINDS[0]!);
-  const [cls, setCls] = useState<"normal" | "limited" | "limitedu">("normal");
+  const [cls, setCls] = useState<"normal" | "limited" | "limitedu" | "offsale">("normal");
   const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [price, setPrice] = useState("100");
@@ -362,6 +362,7 @@ function AdminPage() {
             <option value="normal">Normal (on sale)</option>
             <option value="limited">Limited</option>
             <option value="limitedu">Limited U</option>
+            <option value="offsale">Offsale (stock/timer, then closed; no resale or trading)</option>
           </select>
           <input
             value={price}
@@ -382,7 +383,7 @@ function AdminPage() {
             <input
               value={stock}
               onChange={(e) => setStock(e.target.value)}
-              placeholder="Stock (leave empty for unlimited)"
+              placeholder={cls === "offsale" ? "Stock (set stock and/or a timer)" : "Stock (leave empty for unlimited)"}
               inputMode="numeric"
               className="h-9 rounded-md border border-input bg-card px-3 text-sm outline-none focus:border-primary"
             />
@@ -682,7 +683,7 @@ function AdminPage() {
               <li key={i.id} className="flex flex-wrap items-center gap-3 py-2 text-sm">
                 <span className="font-bold">{i.name}</span>
                 <span className="capitalize text-muted-foreground">
-                  {i.kind} · {i.class === "limitedu" ? "Limited U" : i.class} · {i.price.toLocaleString("en-US")} Rawbux
+                  {i.kind} · {i.class === "limitedu" ? "Limited U" : i.class === "offsale" ? "Offsale" : i.class} · {i.price.toLocaleString("en-US")} Rawbux
                   {i.class !== "normal" ? ` · ${i.copies_sold} sold` : ""}
                 </span>
                 <EditEditor item={i} onSaved={reloadItems} />
