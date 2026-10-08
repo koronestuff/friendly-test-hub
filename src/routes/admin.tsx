@@ -366,7 +366,7 @@ function AdminPage() {
             <option value="normal">Normal (on sale)</option>
             <option value="limited">Limited</option>
             <option value="limitedu">Limited U</option>
-            <option value="offsale">Offsale (stock/timer, then closed; no resale or trading)</option>
+            <option value="offsale">Offsale</option>
           </select>
           <input
             value={price}
