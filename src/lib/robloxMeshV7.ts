@@ -1,3 +1,4 @@
+// @ts-nocheck -- copied as-is from rces; loose typing around the mesh decoder
 import type * as THREE from "three";
 import { DRACOLoader } from "three-stdlib";
 import {
