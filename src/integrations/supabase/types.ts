@@ -14,16 +14,195 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      items: {
+        Row: {
+          class: Database["public"]["Enums"]["item_class"]
+          copies_sold: number
+          created_at: string
+          creator_id: string | null
+          description: string
+          id: string
+          image_url: string | null
+          kind: Database["public"]["Enums"]["item_kind"]
+          name: string
+          price: number
+          rap: number
+          sale_ends_at: string | null
+          stock: number | null
+          value: number
+        }
+        Insert: {
+          class?: Database["public"]["Enums"]["item_class"]
+          copies_sold?: number
+          created_at?: string
+          creator_id?: string | null
+          description?: string
+          id?: string
+          image_url?: string | null
+          kind: Database["public"]["Enums"]["item_kind"]
+          name: string
+          price?: number
+          rap?: number
+          sale_ends_at?: string | null
+          stock?: number | null
+          value?: number
+        }
+        Update: {
+          class?: Database["public"]["Enums"]["item_class"]
+          copies_sold?: number
+          created_at?: string
+          creator_id?: string | null
+          description?: string
+          id?: string
+          image_url?: string | null
+          kind?: Database["public"]["Enums"]["item_kind"]
+          name?: string
+          price?: number
+          rap?: number
+          sale_ends_at?: string | null
+          stock?: number | null
+          value?: number
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_colors: Json
+          ban_reason: string | null
+          ban_until: string | null
+          created_at: string
+          description: string
+          equipped_items: string[]
+          id: string
+          inventory_private: boolean
+          is_banned: boolean
+          last_daily_at: string
+          rawbux: number
+          username: string
+        }
+        Insert: {
+          avatar_colors?: Json
+          ban_reason?: string | null
+          ban_until?: string | null
+          created_at?: string
+          description?: string
+          equipped_items?: string[]
+          id: string
+          inventory_private?: boolean
+          is_banned?: boolean
+          last_daily_at?: string
+          rawbux?: number
+          username: string
+        }
+        Update: {
+          avatar_colors?: Json
+          ban_reason?: string | null
+          ban_until?: string | null
+          created_at?: string
+          description?: string
+          equipped_items?: string[]
+          id?: string
+          inventory_private?: boolean
+          is_banned?: boolean
+          last_daily_at?: string
+          rawbux?: number
+          username?: string
+        }
+        Relationships: []
+      }
+      user_items: {
+        Row: {
+          acquired_at: string
+          id: string
+          item_id: string
+          sale_price: number | null
+          serial: number | null
+          user_id: string
+        }
+        Insert: {
+          acquired_at?: string
+          id?: string
+          item_id: string
+          sale_price?: number | null
+          serial?: number | null
+          user_id: string
+        }
+        Update: {
+          acquired_at?: string
+          id?: string
+          item_id?: string
+          sale_price?: number | null
+          serial?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_items_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: false
+            referencedRelation: "items"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      buy_item: { Args: { _item_id: string }; Returns: string }
+      change_username: { Args: { _new: string }; Returns: string }
+      claim_daily: { Args: never; Returns: number }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      inventory_is_private: { Args: { _user_id: string }; Returns: boolean }
+      item_is_limited: {
+        Args: { _item: Database["public"]["Tables"]["items"]["Row"] }
+        Returns: boolean
+      }
+      set_inventory_private: { Args: { _private: boolean }; Returns: string }
+      set_resale: {
+        Args: { _price: number; _user_item_id: string }
+        Returns: string
+      }
+      update_description: { Args: { _desc: string }; Returns: string }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "user"
+      item_class: "normal" | "limited" | "limitedu"
+      item_kind:
+        | "hat"
+        | "hair"
+        | "face"
+        | "neck"
+        | "shoulder"
+        | "front"
+        | "back"
+        | "waist"
+        | "gear"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +329,20 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "user"],
+      item_class: ["normal", "limited", "limitedu"],
+      item_kind: [
+        "hat",
+        "hair",
+        "face",
+        "neck",
+        "shoulder",
+        "front",
+        "back",
+        "waist",
+        "gear",
+      ],
+    },
   },
 } as const
