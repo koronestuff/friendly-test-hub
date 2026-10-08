@@ -14,6 +14,75 @@ export type Database = {
   }
   public: {
     Tables: {
+      follows: {
+        Row: {
+          created_at: string
+          follower_id: string
+          following_id: string
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          follower_id: string
+          following_id: string
+          id?: string
+        }
+        Update: {
+          created_at?: string
+          follower_id?: string
+          following_id?: string
+          id?: string
+        }
+        Relationships: []
+      }
+      friend_requests: {
+        Row: {
+          created_at: string
+          id: string
+          receiver_id: string
+          sender_id: string
+          status: Database["public"]["Enums"]["friend_request_status"]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          receiver_id: string
+          sender_id: string
+          status?: Database["public"]["Enums"]["friend_request_status"]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          receiver_id?: string
+          sender_id?: string
+          status?: Database["public"]["Enums"]["friend_request_status"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      friendships: {
+        Row: {
+          created_at: string
+          id: string
+          user_a: string
+          user_b: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          user_a: string
+          user_b: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          user_a?: string
+          user_b?: string
+        }
+        Relationships: []
+      }
       items: {
         Row: {
           class: Database["public"]["Enums"]["item_class"]
@@ -110,6 +179,158 @@ export type Database = {
         }
         Relationships: []
       }
+      promocode_redemptions: {
+        Row: {
+          created_at: string
+          id: string
+          promocode_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          promocode_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          promocode_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "promocode_redemptions_promocode_id_fkey"
+            columns: ["promocode_id"]
+            isOneToOne: false
+            referencedRelation: "promocodes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      promocodes: {
+        Row: {
+          code: string
+          created_at: string
+          expires_at: string | null
+          id: string
+          is_active: boolean
+          item_id: string | null
+          max_uses: number | null
+          rawbux_reward: number
+          updated_at: string
+          uses: number
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean
+          item_id?: string | null
+          max_uses?: number | null
+          rawbux_reward?: number
+          updated_at?: string
+          uses?: number
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean
+          item_id?: string | null
+          max_uses?: number | null
+          rawbux_reward?: number
+          updated_at?: string
+          uses?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "promocodes_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: false
+            referencedRelation: "items"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      trade_items: {
+        Row: {
+          created_at: string
+          id: string
+          item_id: string
+          side: string
+          trade_id: string
+          user_item_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          item_id: string
+          side: string
+          trade_id: string
+          user_item_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          item_id?: string
+          side?: string
+          trade_id?: string
+          user_item_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "trade_items_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: false
+            referencedRelation: "items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "trade_items_trade_id_fkey"
+            columns: ["trade_id"]
+            isOneToOne: false
+            referencedRelation: "trades"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "trade_items_user_item_id_fkey"
+            columns: ["user_item_id"]
+            isOneToOne: false
+            referencedRelation: "user_items"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      trades: {
+        Row: {
+          created_at: string
+          id: string
+          receiver_id: string
+          sender_id: string
+          status: Database["public"]["Enums"]["trade_status"]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          receiver_id: string
+          sender_id: string
+          status?: Database["public"]["Enums"]["trade_status"]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          receiver_id?: string
+          sender_id?: string
+          status?: Database["public"]["Enums"]["trade_status"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_items: {
         Row: {
           acquired_at: string
@@ -169,8 +390,14 @@ export type Database = {
     }
     Functions: {
       buy_item: { Args: { _item_id: string }; Returns: string }
+      cancel_friend_request: { Args: { _request_id: string }; Returns: string }
+      cancel_trade: { Args: { _trade_id: string }; Returns: string }
       change_username: { Args: { _new: string }; Returns: string }
       claim_daily: { Args: never; Returns: number }
+      create_trade: {
+        Args: { _offer: string[]; _receiver: string; _request: string[] }
+        Returns: string
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -183,6 +410,21 @@ export type Database = {
         Args: { _item: Database["public"]["Tables"]["items"]["Row"] }
         Returns: boolean
       }
+      redeem_promocode: { Args: { _code: string }; Returns: string }
+      remove_friend: { Args: { _other: string }; Returns: string }
+      respond_friend_request: {
+        Args: { _accept: boolean; _request_id: string }
+        Returns: string
+      }
+      respond_trade: {
+        Args: { _accept: boolean; _trade_id: string }
+        Returns: string
+      }
+      send_friend_request: { Args: { _target: string }; Returns: string }
+      set_follow: {
+        Args: { _follow: boolean; _target: string }
+        Returns: string
+      }
       set_inventory_private: { Args: { _private: boolean }; Returns: string }
       set_resale: {
         Args: { _price: number; _user_item_id: string }
@@ -192,6 +434,7 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "user"
+      friend_request_status: "pending" | "accepted" | "declined" | "cancelled"
       item_class: "normal" | "limited" | "limitedu"
       item_kind:
         | "hat"
@@ -203,6 +446,7 @@ export type Database = {
         | "back"
         | "waist"
         | "gear"
+      trade_status: "pending" | "accepted" | "declined" | "cancelled"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -331,6 +575,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "user"],
+      friend_request_status: ["pending", "accepted", "declined", "cancelled"],
       item_class: ["normal", "limited", "limitedu"],
       item_kind: [
         "hat",
@@ -343,6 +588,7 @@ export const Constants = {
         "waist",
         "gear",
       ],
+      trade_status: ["pending", "accepted", "declined", "cancelled"],
     },
   },
 } as const
