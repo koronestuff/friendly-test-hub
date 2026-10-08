@@ -29,7 +29,7 @@ export const publishItem = createServerFn({ method: "POST" })
     (data: {
       name: string;
       kind: string;
-      cls: "normal" | "limited" | "limitedu";
+      cls: "normal" | "limited" | "limitedu" | "offsale";
       description: string;
       imageUrl: string;
       price: number;
@@ -48,6 +48,9 @@ export const publishItem = createServerFn({ method: "POST" })
       (data.timerHours ?? 0) * 3600 +
       (data.timerMinutes ?? 0) * 60 +
       (data.timerSeconds ?? 0);
+    if (data.cls === "offsale" && !(totalSeconds > 0) && !((data.stock ?? 0) > 0)) {
+      throw new Error("Offsale items need a stock amount or a timer.");
+    }
     const saleEnds =
       data.cls !== "normal" && totalSeconds > 0
         ? new Date(Date.now() + totalSeconds * 1000).toISOString()
@@ -355,7 +358,7 @@ export const adminGiveItem = createServerFn({ method: "POST" })
       .maybeSingle();
     if (!item) throw new Error("Item not found");
     let serial: number | null = null;
-    if (item.class !== "normal") {
+    if (item.class !== "normal" && item.class !== "offsale") {
       const { data: rows } = await supabaseAdmin
         .from("user_items")
         .select("serial")
