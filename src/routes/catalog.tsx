@@ -51,7 +51,7 @@ function CatalogPage() {
     queryKey: ["catalog", cls, kind, term],
     staleTime: 60 * 1000,
     queryFn: async () => {
-      let q = supabase.from("items").select("*").order("created_at", { ascending: false });
+      let q = supabase.from("items").select("*").eq("hidden", false).order("created_at", { ascending: false });
       if (cls === "clothing") q = q.in("kind", [...CLOTHING_KINDS]);
       else {
         q = q.not("kind", "in", `(${CLOTHING_KINDS.join(",")})`);
