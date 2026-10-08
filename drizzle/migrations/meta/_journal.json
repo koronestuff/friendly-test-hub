@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1791469235101,
+      "tag": "0000_rces_base_schema",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1791469302761,
+      "tag": "0001_rces_social_trades_promos",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1791469330309,
+      "tag": "0002_rces_avatar_clothing",
+      "breakpoints": true
+    }
+  ]
+}

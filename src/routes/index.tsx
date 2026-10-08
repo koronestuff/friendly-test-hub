@@ -1,36 +1,73 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { AppLayout } from "@/components/AppLayout";
+import { ItemCard } from "@/components/ItemCard";
+import { useAuth } from "@/lib/auth";
+import type { Item } from "@/lib/format";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Korone Test Site — Yubi Yubi!" },
-      { name: "description", content: "A tiny test site full of Korone stuff." },
-      { property: "og:title", content: "Korone Test Site" },
-      { property: "og:description", content: "A tiny test site full of Korone stuff." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
+      { title: "Rawblox — Home" },
+      {
+        name: "description",
+        content: "Your Rawblox home: newest catalog items, your Rawbux and your collection.",
+      },
+      { property: "og:title", content: "Rawblox — Home" },
+      {
+        property: "og:description",
+        content: "Your Rawblox home: newest catalog items, your Rawbux and your collection.",
+      },
     ],
   }),
-  component: Index,
+  component: HomePage,
 });
 
-function Index() {
-  const [count, setCount] = useState(0);
+function HomePage() {
+  const { profile } = useAuth();
+  const { data: items } = useQuery({
+    queryKey: ["home-items"],
+    queryFn: async () => {
+      const { data } = await supabase
+        .from("items")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(12);
+      return (data ?? []) as Item[];
+    },
+  });
+
   return (
-    <main className="min-h-screen bg-background text-foreground flex flex-col items-center justify-center gap-8 px-6 text-center">
-      <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground">Test site</p>
-      <h1 className="font-display text-6xl md:text-8xl text-primary">Yubi Yubi!</h1>
-      <p className="max-w-md text-lg text-muted-foreground">
-        A little corner for Korone stuff. Press the button to collect fingers.
-      </p>
-      <button
-        onClick={() => setCount((c) => c + 1)}
-        className="rounded-full bg-primary px-8 py-4 text-xl font-bold text-primary-foreground shadow-lg transition-transform hover:scale-105 active:scale-95"
-      >
-        🦴 Collect a yubi
-      </button>
-      <p className="font-display text-3xl">{count} yubi collected</p>
-    </main>
+    <AppLayout>
+      <div className="rb-card mb-4 p-5">
+        <h1 className="text-2xl font-bold">
+          Welcome back{profile ? `, ${profile.username}` : ""}!
+        </h1>
+        <p className="mt-1 text-sm text-muted-foreground">
+          You collect 100 free Rawribux every 24 hours just for logging in.
+        </p>
+      </div>
+
+      <section className="rb-card p-4">
+        <div className="mb-3 flex items-center justify-between border-b border-border pb-2">
+          <h2 className="text-lg font-semibold">Recently Uploaded Items</h2>
+          <Link to="/catalog" className="text-sm font-semibold text-primary hover:underline">
+            See all
+          </Link>
+        </div>
+        {items && items.length > 0 ? (
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+            {items.map((i) => (
+              <ItemCard key={i.id} item={i} />
+            ))}
+          </div>
+        ) : (
+          <p className="py-6 text-center text-sm text-muted-foreground">
+            No items have been uploaded yet.
+          </p>
+        )}
+      </section>
+    </AppLayout>
   );
 }

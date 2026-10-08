@@ -10,33 +10,245 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AvatarRouteImport } from './routes/avatar'
+import { Route as CatalogRouteImport } from './routes/catalog'
+import { Route as CreateRouteImport } from './routes/create'
+import { Route as FriendsRouteImport } from './routes/friends'
+import { Route as InventoryRouteImport } from './routes/inventory'
+import { Route as LeaderboardRouteImport } from './routes/leaderboard'
+import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as PromocodesRouteImport } from './routes/promocodes'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as TradeRouteImport } from './routes/trade'
+import { Route as ValuesRouteImport } from './routes/values'
+import { Route as ItemItemIdRouteImport } from './routes/item.$itemId'
+import { Route as UsersUsernameRouteImport } from './routes/users.$username'
+import { Route as TradeNewUsernameRouteImport } from './routes/trade_.new.$username'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AvatarRoute = AvatarRouteImport.update({
+  id: '/avatar',
+  path: '/avatar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CatalogRoute = CatalogRouteImport.update({
+  id: '/catalog',
+  path: '/catalog',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CreateRoute = CreateRouteImport.update({
+  id: '/create',
+  path: '/create',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FriendsRoute = FriendsRouteImport.update({
+  id: '/friends',
+  path: '/friends',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InventoryRoute = InventoryRouteImport.update({
+  id: '/inventory',
+  path: '/inventory',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LeaderboardRoute = LeaderboardRouteImport.update({
+  id: '/leaderboard',
+  path: '/leaderboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PromocodesRoute = PromocodesRouteImport.update({
+  id: '/promocodes',
+  path: '/promocodes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TradeRoute = TradeRouteImport.update({
+  id: '/trade',
+  path: '/trade',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ValuesRoute = ValuesRouteImport.update({
+  id: '/values',
+  path: '/values',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ItemItemIdRoute = ItemItemIdRouteImport.update({
+  id: '/item/$itemId',
+  path: '/item/$itemId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UsersUsernameRoute = UsersUsernameRouteImport.update({
+  id: '/users/$username',
+  path: '/users/$username',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TradeNewUsernameRoute = TradeNewUsernameRouteImport.update({
+  id: '/trade_/new/$username',
+  path: '/trade/new/$username',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/auth': typeof AuthRoute
+  '/avatar': typeof AvatarRoute
+  '/catalog': typeof CatalogRoute
+  '/create': typeof CreateRoute
+  '/friends': typeof FriendsRoute
+  '/inventory': typeof InventoryRoute
+  '/leaderboard': typeof LeaderboardRoute
+  '/profile': typeof ProfileRoute
+  '/promocodes': typeof PromocodesRoute
+  '/settings': typeof SettingsRoute
+  '/trade': typeof TradeRoute
+  '/values': typeof ValuesRoute
+  '/item/$itemId': typeof ItemItemIdRoute
+  '/users/$username': typeof UsersUsernameRoute
+  '/trade/new/$username': typeof TradeNewUsernameRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/auth': typeof AuthRoute
+  '/avatar': typeof AvatarRoute
+  '/catalog': typeof CatalogRoute
+  '/create': typeof CreateRoute
+  '/friends': typeof FriendsRoute
+  '/inventory': typeof InventoryRoute
+  '/leaderboard': typeof LeaderboardRoute
+  '/profile': typeof ProfileRoute
+  '/promocodes': typeof PromocodesRoute
+  '/settings': typeof SettingsRoute
+  '/trade': typeof TradeRoute
+  '/values': typeof ValuesRoute
+  '/item/$itemId': typeof ItemItemIdRoute
+  '/users/$username': typeof UsersUsernameRoute
+  '/trade/new/$username': typeof TradeNewUsernameRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/auth': typeof AuthRoute
+  '/avatar': typeof AvatarRoute
+  '/catalog': typeof CatalogRoute
+  '/create': typeof CreateRoute
+  '/friends': typeof FriendsRoute
+  '/inventory': typeof InventoryRoute
+  '/leaderboard': typeof LeaderboardRoute
+  '/profile': typeof ProfileRoute
+  '/promocodes': typeof PromocodesRoute
+  '/settings': typeof SettingsRoute
+  '/trade': typeof TradeRoute
+  '/values': typeof ValuesRoute
+  '/item/$itemId': typeof ItemItemIdRoute
+  '/users/$username': typeof UsersUsernameRoute
+  '/trade_/new/$username': typeof TradeNewUsernameRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/auth'
+    | '/avatar'
+    | '/catalog'
+    | '/create'
+    | '/friends'
+    | '/inventory'
+    | '/leaderboard'
+    | '/profile'
+    | '/promocodes'
+    | '/settings'
+    | '/trade'
+    | '/values'
+    | '/item/$itemId'
+    | '/users/$username'
+    | '/trade/new/$username'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/admin'
+    | '/auth'
+    | '/avatar'
+    | '/catalog'
+    | '/create'
+    | '/friends'
+    | '/inventory'
+    | '/leaderboard'
+    | '/profile'
+    | '/promocodes'
+    | '/settings'
+    | '/trade'
+    | '/values'
+    | '/item/$itemId'
+    | '/users/$username'
+    | '/trade/new/$username'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/auth'
+    | '/avatar'
+    | '/catalog'
+    | '/create'
+    | '/friends'
+    | '/inventory'
+    | '/leaderboard'
+    | '/profile'
+    | '/promocodes'
+    | '/settings'
+    | '/trade'
+    | '/values'
+    | '/item/$itemId'
+    | '/users/$username'
+    | '/trade_/new/$username'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
+  AuthRoute: typeof AuthRoute
+  AvatarRoute: typeof AvatarRoute
+  CatalogRoute: typeof CatalogRoute
+  CreateRoute: typeof CreateRoute
+  FriendsRoute: typeof FriendsRoute
+  InventoryRoute: typeof InventoryRoute
+  LeaderboardRoute: typeof LeaderboardRoute
+  ProfileRoute: typeof ProfileRoute
+  PromocodesRoute: typeof PromocodesRoute
+  SettingsRoute: typeof SettingsRoute
+  TradeRoute: typeof TradeRoute
+  ValuesRoute: typeof ValuesRoute
+  ItemItemIdRoute: typeof ItemItemIdRoute
+  UsersUsernameRoute: typeof UsersUsernameRoute
+  TradeNewUsernameRoute: typeof TradeNewUsernameRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +260,139 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/avatar': {
+      id: '/avatar'
+      path: '/avatar'
+      fullPath: '/avatar'
+      preLoaderRoute: typeof AvatarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/catalog': {
+      id: '/catalog'
+      path: '/catalog'
+      fullPath: '/catalog'
+      preLoaderRoute: typeof CatalogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/create': {
+      id: '/create'
+      path: '/create'
+      fullPath: '/create'
+      preLoaderRoute: typeof CreateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/friends': {
+      id: '/friends'
+      path: '/friends'
+      fullPath: '/friends'
+      preLoaderRoute: typeof FriendsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/inventory': {
+      id: '/inventory'
+      path: '/inventory'
+      fullPath: '/inventory'
+      preLoaderRoute: typeof InventoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/leaderboard': {
+      id: '/leaderboard'
+      path: '/leaderboard'
+      fullPath: '/leaderboard'
+      preLoaderRoute: typeof LeaderboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/promocodes': {
+      id: '/promocodes'
+      path: '/promocodes'
+      fullPath: '/promocodes'
+      preLoaderRoute: typeof PromocodesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/trade': {
+      id: '/trade'
+      path: '/trade'
+      fullPath: '/trade'
+      preLoaderRoute: typeof TradeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/values': {
+      id: '/values'
+      path: '/values'
+      fullPath: '/values'
+      preLoaderRoute: typeof ValuesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/item/$itemId': {
+      id: '/item/$itemId'
+      path: '/item/$itemId'
+      fullPath: '/item/$itemId'
+      preLoaderRoute: typeof ItemItemIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/users/$username': {
+      id: '/users/$username'
+      path: '/users/$username'
+      fullPath: '/users/$username'
+      preLoaderRoute: typeof UsersUsernameRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/trade_/new/$username': {
+      id: '/trade_/new/$username'
+      path: '/trade/new/$username'
+      fullPath: '/trade/new/$username'
+      preLoaderRoute: typeof TradeNewUsernameRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
+  AuthRoute: AuthRoute,
+  AvatarRoute: AvatarRoute,
+  CatalogRoute: CatalogRoute,
+  CreateRoute: CreateRoute,
+  FriendsRoute: FriendsRoute,
+  InventoryRoute: InventoryRoute,
+  LeaderboardRoute: LeaderboardRoute,
+  ProfileRoute: ProfileRoute,
+  PromocodesRoute: PromocodesRoute,
+  SettingsRoute: SettingsRoute,
+  TradeRoute: TradeRoute,
+  ValuesRoute: ValuesRoute,
+  ItemItemIdRoute: ItemItemIdRoute,
+  UsersUsernameRoute: UsersUsernameRoute,
+  TradeNewUsernameRoute: TradeNewUsernameRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
