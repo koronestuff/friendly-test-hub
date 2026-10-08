@@ -22,6 +22,13 @@
       "when": 1791469330309,
       "tag": "0002_rces_avatar_clothing",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1791469390309,
+      "tag": "0003_item_hidden",
+      "breakpoints": true
     }
   ]
 }
