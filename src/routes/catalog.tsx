@@ -31,6 +31,7 @@ const FILTERS = [
   { key: "normal", label: "On Sale" },
   { key: "limited", label: "Limited" },
   { key: "limitedu", label: "Limited U" },
+  { key: "offsale", label: "Offsale" },
   { key: "clothing", label: "Clothing" },
 ] as const;
 
