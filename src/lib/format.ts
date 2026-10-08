@@ -43,6 +43,7 @@ export type Item = {
   value: number;
   created_at: string;
   creator_id?: string | null;
+  hidden?: boolean;
 };
 
 export function isLimitedNow(item: Pick<Item, "class" | "sale_ends_at" | "stock">) {
