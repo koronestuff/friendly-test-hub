@@ -33,6 +33,7 @@ function ValuesPage() {
       const { data } = await supabase
         .from("items")
         .select("*")
+        .eq("hidden", false)
         .order("value", { ascending: false })
         .order("rap", { ascending: false });
       return (data ?? []) as Item[];
